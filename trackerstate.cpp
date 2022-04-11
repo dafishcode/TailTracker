@@ -439,6 +439,8 @@ void trackerState::initBGSubstraction()
 
     ///// GEt Median Image - SORT images By Pixel intensity //
     cv::Mat tmp;
+
+    std::clog << "Calculating Median Image" << std::endl;
     // We will sorting pixels where the first mat will get the lowest pixels and the last one, the highest
     for(int i = 0; i < listImages.size(); i++) {
         for(int j = i + 1; j < listImages.size(); j++) {
@@ -461,6 +463,7 @@ void trackerState::initBGSubstraction()
             QCoreApplication::processEvents();
         }
     }
+    std::clog << "Done Calculating Median Image" << std::endl;
     /// We Save the Minimum - ie 1st element - As the background - so any moving components are removed
     bgFrame = listImages[0]; //
     assert(!bgFrame.empty());
