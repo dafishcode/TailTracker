@@ -86,8 +86,8 @@ protected:
 
     uint currentFrameNumber = 0; //The current frame number of tracking
 
-    double contrastGain = 2.4;
-    double brightness  = 45;
+    double contrastGain = 1.1;
+    double brightness  = 10;
 
     bool bStartFrameChanged;
     sourceVideoTypes inputSourceMode;

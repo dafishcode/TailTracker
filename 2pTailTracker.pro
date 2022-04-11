@@ -70,7 +70,7 @@ DISTFILES += \
 # # appimagetool -v /home/kostasl/workspace/2pTailTracker/bin/AppDir/
 ## TO Run it may be best to unset env vars so installed libs do not confuse
 #unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH; ./2p-muscope_Tail_Tracker-x86_64.AppImage
-##Constantly getting Failed to create OpenGL context for format QSurfaceFormat error!
+## TROUBLESHOOT : Constantly getting Failed to create OpenGL context for format QSurfaceFormat error!
 ##Suggested solution for ubuntu: https://github.com/ColinDuquesnoy/MellowPlayer/issues/189#issuecomment-357721156
 ## sudo apt-get install qml-module-qtwebchannel
 

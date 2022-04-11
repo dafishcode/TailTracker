@@ -14,99 +14,14 @@ Window {
     title: qsTr("Tail tracker for 2p-microscope constrained larva videos")
     signal qmlSignal(string msg)
     onSceneGraphInitialized: busyIndicator.running = false;
-//    onContentItemChanged: {
-//            qmlSignal("Change");
-//    }
+    //    onContentItemChanged: {
+    //            qmlSignal("Change");
+    //    }
 
-    Text {
-        id: txtLog
-        objectName: "txtLog"
-        x: 7
-        y: 330
-        width: 626
-        height: 132
-        text: qsTr("Tracker activity Log ")
-        transformOrigin: Item.TopLeft
-        styleColor: "#588076"
-        opacity: 0.807
-        font.pixelSize: 12
-        signal qmlSignal(string msg)
-    }
-
-//    Connections {
-//        target: txtLog
-//        onTextChanged: txtLog.qmlSignal("onTextChanged")
-//    }
-
-    Image {
-        id: imgTracker
-        objectName: "imgTracker"
-        x: 195
-        y: 38
-        width: 200
-        height: 200
-        fillMode: Image.PreserveAspectFit
-        source: "qrc:/MeyerLogoIcon256x256.png"
-        onStatusChanged: {
-                  if(status == Image.Ready)
-                      busyIndicator.running = false;
-                      //console.log("BG Calculation Done. Ready to track.")
-              }
-
-
-        MouseArea {
-                  width: 200
-                  height: 200
-                  id: imgMouseArea
-                  objectName: "imgMouseArea"
-                  anchors.fill: parent
-                  acceptedButtons: Qt.LeftButton | Qt.RightButton
-                  anchors.rightMargin: 0
-                  anchors.bottomMargin: 0
-                  anchors.leftMargin: 0
-                  anchors.topMargin: 0
-                  hoverEnabled : true
-                  signal qmlMouseClickSig()
-                  signal qmlMouseDragSig()
-                  signal qmlMouseReleased()
-                  signal qmlMouseMoved()
-                  onClicked: {
-
-                      //console.log("irregular area clicked");
-                      //qmlMouseClickSig();
-                      //videoImage.source = "image://trackerframe/" + Math.random(1000)
-
-                  }
-                  //onDoubleClicked: qmlMouseClickSig()
-                  onPressAndHold:{
-                      cursorShape = Qt.CrossCursor;
-                      qmlMouseClickSig();
-                      hoverEnabled = true;
-                  }
-                  onPositionChanged: {
-                      //Draging Motion
-                      qmlMouseDragSig();
-                  }
-                  onReleased:{
-                      //Draging Motion
-                      qmlMouseReleased();
-                      //hoverEnabled = false;
-                      cursorShape = Qt.ArrowCursor;
-                  }
-
-                  BusyIndicator {
-                      id: busyIndicator
-                      objectName: "BusyIndicator"
-                      anchors.centerIn: parent
-                      running: true
-                      x: 70
-                      y: 70
-                  }
-
-        }
-
-
-    }
+    //    Connections {
+    //        target: txtLog
+    //        onTextChanged: txtLog.qmlSignal("onTextChanged")
+    //    }
 
 
     FileDialog {
@@ -124,11 +39,191 @@ Window {
             Qt.quit()
         }
         onRejected: {
-            console.log("Canceled")
+            console.log("Cancelled")
             Qt.quit()
         }
         //onCompleted: visible = false
     }
+    Frame {
+        id: frame_buttons
+        x: 464
+        width: 176
+        height: 295
+        anchors.top: parent.top
+        anchors.topMargin: 8
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        transformOrigin: Item.TopRight
+
+        Button {
+            id: buttonSelectVideo
+            x: 12
+            y: 7
+            width: 144
+            height: 40
+            onPressed: {
+                fileDialogInput.setTitle("Select Video file");
+                fileDialogInput.selectFolder = false;
+                fileDialogInput.setNameFilters("*.avi *.mp4 *.mkv *.h264;; *.*");
+                fileDialogInput.visible = true;
+
+            }
+
+            text: qsTr("Set Input Video")
+        }
+
+        Button {
+            id: buttonOpenFolder
+            x: 12
+            y: 71
+            width: 144
+            height: 40
+            text: qsTr("Set Input Folder")
+            onPressed:
+            {
+                fileDialogInput.setTitle("Select Folder with image sequence");
+                fileDialogInput.setNameFilters("*");
+                fileDialogInput.selectNameFilter("*");
+                fileDialogInput.setNameFilters("*");
+                fileDialogInput.selectFolder = true;
+
+                fileDialogInput.visible = true;
+            }
+        }
+
+        Button {
+            id: buttonTrack
+            objectName: "buttonStartTrack"
+            x: 12
+            y: 206
+            width: 140
+            height: 40
+            signal qmlStartTracking();
+            text: qsTr("Start tracking")
+            onPressed: {
+                console.log("Starting Tracking...");
+                qmlStartTracking();
+            }
+        }
+
+        Button {
+            id: buttonOutput
+            x: 12
+            y: 148
+            width: 142
+            height: 40
+            onPressed: {
+                fileDialogOutput.selectFolder = true;
+                fileDialogOutput.visible = true;
+            }
+            text: qsTr("Set output folder")
+        }
+
+
+
+
+
+
+    }
+
+    BusyIndicator {
+        id: busyIndicator
+        objectName: "BusyIndicator"
+        running: true
+        x: 290
+        y: 210
+        width: 159
+        height: 135
+        anchors.horizontalCenter: imgTracker.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenterOffset: 0
+        anchors.horizontalCenterOffset: 0
+    }
+
+    MouseArea {
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 102
+        anchors.left: parent.left
+        anchors.leftMargin: 7
+        anchors.top: parent.top
+        anchors.topMargin: 8
+        anchors.right: parent.right
+        id: imgMouseArea
+        objectName: "imgMouseArea"
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        anchors.rightMargin: 176
+        hoverEnabled : true
+        signal qmlMouseClickSig()
+        signal qmlMouseDragSig()
+        signal qmlMouseReleased()
+        signal qmlMouseMoved()
+        onClicked: {
+
+            //console.log("irregular area clicked");
+            //qmlMouseClickSig();
+            //videoImage.source = "image://trackerframe/" + Math.random(1000)
+
+        }
+        //onDoubleClicked: qmlMouseClickSig()
+        onPressAndHold:{
+            cursorShape = Qt.CrossCursor;
+            qmlMouseClickSig();
+            hoverEnabled = true;
+        }
+        onPositionChanged: {
+            //Draging Motion
+            qmlMouseDragSig();
+        }
+        onReleased:{
+            //Draging Motion
+            qmlMouseReleased();
+            //hoverEnabled = false;
+            cursorShape = Qt.ArrowCursor;
+        }
+
+    }
+
+    Image {
+        id: imgTracker
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 102
+        anchors.right: parent.right
+        anchors.rightMargin: 182
+        anchors.left: parent.left
+        anchors.leftMargin: 7
+        anchors.top: parent.top
+        anchors.topMargin: 19
+        objectName: "imgTracker"
+        fillMode: Image.PreserveAspectFit
+        source: "qrc:/MeyerLogoIcon256x256.png"
+        onStatusChanged: {
+            if(status == Image.Ready)
+                busyIndicator.running = false;
+            //console.log("BG Calculation Done. Ready to track.")
+        }
+
+
+
+    }
+
+    Text {
+        id: txtLog
+        objectName: "txtLog"
+        y: 393
+        width: 626
+        height: 87
+        text: qsTr("Tracker activity Log ")
+        anchors.left: parent.left
+        anchors.leftMargin: 7
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 9
+        transformOrigin: Item.TopLeft
+        styleColor: "#588076"
+        opacity: 0.807
+        font.pixelSize: 12
+        signal qmlSignal(string msg)
+    }
+
     FileDialog {
         id: fileDialogOutput
         objectName: "fileDialogOutput"
@@ -149,72 +244,28 @@ Window {
 
 
 
-         //Component.onCompleted: visible = false
+        //Component.onCompleted: visible = false
     }
 
 
-    Button {
-        id: buttonOutput
-        x: 465
-        y: 220
-        width: 149
-        height: 40
-        onPressed: {
-            fileDialogOutput.selectFolder = true;
-            fileDialogOutput.visible = true;
-        }
-        text: qsTr("Select output folder")
-    }
 
-    Button {
-        id: buttonTrack
-        objectName: "buttonStartTrack"
-        x: 225
-        y: 267
-        width: 140
-        height: 40
-        signal qmlStartTracking();
-        text: qsTr("Start tracking")
-        onPressed: {
-            console.log("Starting Tracking...");
-            qmlStartTracking();
-        }
-    }
 
-    Button {
-        id: buttonOpenFolder
-        x: 465
-        y: 86
-        width: 149
-        height: 40
-        text: qsTr("Select Input Folder")
-        onPressed:
-        {
-            fileDialogInput.setTitle("Select Folder with image sequence");
-            fileDialogInput.setNameFilters("*");
-            fileDialogInput.selectNameFilter("*");
-            fileDialogInput.setNameFilters("*");
-            fileDialogInput.selectFolder = true;
 
-            fileDialogInput.visible = true;
-        }
-    }
 
-    Button {
-        id: buttonSelectVideo
-        x: 465
-        y: 26
-        width: 149
-        height: 40
-        onPressed: {
-            fileDialogInput.setTitle("Select Video file");
-            fileDialogInput.selectFolder = false;
-            fileDialogInput.setNameFilters("*.avi *.mp4 *.mkv *.h264;; *.*");
-            fileDialogInput.visible = true;
 
-        }
 
-        text: qsTr("Select Input Video")
-    }
+
+
+
+
 
 }
+
+
+
+/*##^##
+Designer {
+    D{i:2;anchors_y:8}D{i:8;anchors_height:370;anchors_width:457;anchors_x:7;anchors_y:8}
+D{i:9;anchors_height:348;anchors_width:626;anchors_x:203;anchors_y:65}D{i:10;anchors_x:7}
+}
+##^##*/
