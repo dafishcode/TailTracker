@@ -74,6 +74,7 @@ public:
 
        }
 
+       /// \TODO COnvert Mouse Coordinates to Image Coordinates When IN the Img Scene
        void mouseDragSlot() {
            mouseX = oMouseArea->property("mouseX").toInt();
            mouseY = oMouseArea->property("mouseY").toInt();

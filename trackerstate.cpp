@@ -441,28 +441,29 @@ void trackerState::initBGSubstraction()
     cv::Mat tmp;
 
     std::clog << "Calculating Median Image" << std::endl;
-    // We will sorting pixels where the first mat will get the lowest pixels and the last one, the highest
-    for(int i = 0; i < listImages.size(); i++) {
-        for(int j = i + 1; j < listImages.size(); j++) {
+//    // We will sorting pixels where the first mat will get the lowest pixels and the last one, the highest
+//    for(int i = 0; i < listImages.size(); i++) {
+//        for(int j = i + 1; j < listImages.size(); j++) {
 
-            if (listImages[i].empty())
-                continue;
+//            if (listImages[i].empty())
+//                continue;
+        //qDebug() << i;
 
-            listImages[i].copyTo(tmp);
-            //Calculates per-element maximum/minimum of two arrays
-            cv::min(listImages[i], listImages[j], listImages[i]);
-            cv::max(listImages[j], tmp, listImages[j]);
-//Uncomment the following to sort images by total intensity
-//            cv::Scalar intensity_i = cv::sum(listImages[i]);
-//            cv::Scalar intensity_j = cv::sum(listImages[j]);
-//            if ( intensity_i[1] >intensity_j[1] )
-//            {
-//               listImages[j].copyTo(listImages[i]);
-//               tmp.copyTo(listImages[i]);
-//            }
-            QCoreApplication::processEvents();
-        }
-    }
+//            listImages[i].copyTo(tmp);
+//            //Calculates per-element maximum/minimum of two arrays
+//            cv::min(listImages[i], listImages[j], listImages[i]);
+//            cv::max(listImages[j], tmp, listImages[j]);
+////Uncomment the following to sort images by total intensity
+////            cv::Scalar intensity_i = cv::sum(listImages[i]);
+////            cv::Scalar intensity_j = cv::sum(listImages[j]);
+////            if ( intensity_i[1] >intensity_j[1] )
+////            {
+////               listImages[j].copyTo(listImages[i]);
+////               tmp.copyTo(listImages[i]);
+////            }
+//            QCoreApplication::processEvents();
+//        }
+//    }
     std::clog << "Done Calculating Median Image" << std::endl;
     /// We Save the Minimum - ie 1st element - As the background - so any moving components are removed
     bgFrame = listImages[0]; //

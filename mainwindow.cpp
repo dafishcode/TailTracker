@@ -75,6 +75,8 @@ void mainwindow::LogEvent(QString msg,int AlertLevel)
 
 }
 
+
+
 void mainwindow::showCVImage(cv::Mat& img,uint nFrame )
 {
     //Update The provider
@@ -95,6 +97,8 @@ void mainwindow::showCVImage(cv::Mat& img,uint nFrame )
     //if (ptDrag)
     //    cv::circle(frameScene,*ptDrag,5,cv::Scalar(200,200,0),2);
 
+    //oMouseArea->setProperty("width",QVariant( imgScene->property("width") ));
+    //oMouseArea->setProperty("height",QVariant( imgScene->property("height") ));
 
 }
 
